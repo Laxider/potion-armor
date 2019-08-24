@@ -1,0 +1,11 @@
+name: CarrotHelmet
+main: io.github.keebler17.potionarmor.PotionArmor
+version: 1.0
+author: Keebler17
+description: potion armor
+
+commands:
+   potionarmor:
+      description: potion armor
+      usage: potionarmor
+      aliases: [pa]
