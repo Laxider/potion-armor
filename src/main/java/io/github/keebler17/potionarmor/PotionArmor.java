@@ -13,17 +13,22 @@ public class PotionArmor extends JavaPlugin {
 
 	Map<String, PotionEffect> armor;
 	
+	
+	public void loadFromConfig() {
+		armor = new HashMap<String, PotionEffect>();
+		
+		for(String key : this.getConfig().getKeys(false)) {
+			armor.put(this.getConfig().getString(key + ".name"), new PotionEffect(PotionEffectType.getByName(this.getConfig().getString(key + ".effect")), 999999, this.getConfig().getInt(key + ".power")));
+		}
+	}
+	
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(new InventoryInteract(this), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
 		
 		this.saveDefaultConfig();
 		
-		armor = new HashMap<String, PotionEffect>();
-		
-		for(String key : this.getConfig().getKeys(false)) {
-			armor.put(this.getConfig().getString(key + ".name"), new PotionEffect(PotionEffectType.getByName(this.getConfig().getString(key + ".effect")), 999999, this.getConfig().getInt(key + ".power")));
-		}
+		loadFromConfig();
 	}
 	
 	public void onDisable() {
@@ -42,6 +47,7 @@ public class PotionArmor extends JavaPlugin {
 				if(args[0].equalsIgnoreCase("reload")) {
 					this.reloadConfig();
 					sender.sendMessage("§aConfig reloadeded.");
+					loadFromConfig();
 				}
 			}
 		}
